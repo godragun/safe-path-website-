@@ -72,7 +72,6 @@ export default function MapView({ hazards, onPinClick }: MapViewProps) {
       zoom: 13,
       pitch: 0,
       bearing: 0,
-      antialias: true,
     });
 
     map.addControl(
