@@ -19,7 +19,7 @@ function StatsCard({ icon, label, value, subtitle, color, delay = 0 }: StatsCard
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.4 }}
-      className="glass-panel rounded-xl p-4 hover:border-indigo-500/20 transition-all duration-300 group"
+      className="glass-panel rounded-xl p-4 hover:border-red-500/20 transition-all duration-300 group"
     >
       <div className="flex items-center gap-3 mb-3">
         <div className={`p-2 rounded-lg ${color}`}>
@@ -55,11 +55,11 @@ export default function StatsPanel({
   return (
     <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
       <StatsCard
-        icon={<Users className="w-4 h-4 text-indigo-400" />}
+        icon={<Users className="w-4 h-4 text-red-400" />}
         label="Total Reports"
         value={totalReports}
         subtitle="citizen submissions"
-        color="bg-indigo-500/10"
+        color="bg-red-500/10"
         delay={0}
       />
       <StatsCard

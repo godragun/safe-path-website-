@@ -48,14 +48,14 @@ export default function XAIAuditDrawer({ isOpen, onClose, auditData }: XAIAuditD
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 220 }}
-            className="fixed right-0 top-0 h-full w-full max-w-lg bg-[#0d1117] border-l border-indigo-500/20 shadow-[_-20px_0_60px_rgba(99,102,241,0.1)] z-50 overflow-y-auto text-slate-200"
+            className="fixed right-0 top-0 h-full w-full max-w-lg bg-[#0d1117] border-l border-red-500/20 shadow-[_-20px_0_60px_rgba(99,102,241,0.1)] z-50 overflow-y-auto text-slate-200"
           >
             {/* Header */}
             <div className="sticky top-0 bg-[#0d1117]/90 backdrop-blur-xl p-6 border-b border-slate-800 flex justify-between items-center z-10">
               <div>
                 <h2 className="text-xl font-bold flex items-center gap-2">
-                  <div className="p-2 bg-indigo-500/10 rounded-lg">
-                    <Cpu className="w-5 h-5 text-indigo-400" />
+                  <div className="p-2 bg-red-500/10 rounded-lg">
+                    <Cpu className="w-5 h-5 text-red-400" />
                   </div>
                   <span className="gradient-text">XAI Audit Trail</span>
                 </h2>
@@ -200,7 +200,7 @@ function CheckRow({
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay, duration: 0.3 }}
-      className="group bg-slate-900/60 rounded-lg p-4 border border-slate-800 hover:border-indigo-500/30 transition-all duration-300 hover:shadow-[0_0_20px_rgba(99,102,241,0.05)]"
+      className="group bg-slate-900/60 rounded-lg p-4 border border-slate-800 hover:border-red-500/30 transition-all duration-300 hover:shadow-[0_0_20px_rgba(99,102,241,0.05)]"
     >
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2.5">
@@ -235,7 +235,7 @@ function CheckRow({
           </span>
         )}
       </div>
-      <div className="text-xs font-mono text-indigo-300/80 mb-1 ml-9">{metric}</div>
+      <div className="text-xs font-mono text-red-300/80 mb-1 ml-9">{metric}</div>
       <div className="text-[11px] text-slate-500 leading-relaxed ml-9">{desc}</div>
     </motion.div>
   );

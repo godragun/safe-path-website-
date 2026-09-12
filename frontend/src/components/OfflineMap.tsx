@@ -161,7 +161,7 @@ export default function MapView({ hazards, onPinClick }: MapViewProps) {
       {!isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-[#0a0e1a] z-10">
           <div className="flex flex-col items-center gap-3">
-            <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+            <div className="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin" />
             <span className="font-mono text-sm text-slate-400">
               Initializing Mapping Engine…
             </span>

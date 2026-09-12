@@ -179,8 +179,8 @@ export default function Dashboard() {
       {/* ─── Top Navigation Bar ─────────────────────────────── */}
       <header className="shrink-0 px-6 py-3 border-b border-slate-800/80 flex items-center justify-between bg-[#0a0e1a]/80 backdrop-blur-xl z-30">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-indigo-500/10 rounded-xl">
-            <Shield className="w-6 h-6 text-indigo-400" />
+          <div className="p-2 bg-red-500/10 rounded-xl">
+            <Shield className="w-6 h-6 text-red-400" />
           </div>
           <div>
             <h1 className="text-lg font-bold tracking-tight">
@@ -209,7 +209,7 @@ export default function Dashboard() {
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${
               isSimulating
                 ? "bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20"
-                : "bg-indigo-500 text-white hover:bg-indigo-400 shadow-lg shadow-indigo-500/25"
+                : "bg-red-500 text-white hover:bg-red-400 shadow-lg shadow-red-500/25"
             }`}
           >
             {isSimulating ? (
@@ -280,17 +280,17 @@ export default function Dashboard() {
                 animate={{ opacity: 1, y: 0 }}
                 className="glass-panel rounded-2xl p-8 text-center max-w-md pointer-events-auto"
               >
-                <div className="mx-auto w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-4">
-                  <Zap className="w-8 h-8 text-indigo-400" />
+                <div className="mx-auto w-16 h-16 bg-red-500/10 rounded-2xl flex items-center justify-center mb-4">
+                  <Zap className="w-8 h-8 text-red-400" />
                 </div>
                 <h2 className="text-xl font-bold text-white mb-2">Ready to Deploy</h2>
                 <p className="text-sm text-slate-400 mb-5">
-                  Click <strong className="text-indigo-400">Start Simulation</strong> to replay a localized flash-flood scenario. 
+                  Click <strong className="text-red-400">Start Simulation</strong> to replay a localized flash-flood scenario. 
                   Watch as citizen reports and river gauge data stream in real-time.
                 </p>
                 <button
                   onClick={startSimulation}
-                  className="px-6 py-2.5 bg-indigo-500 text-white rounded-lg font-semibold text-sm hover:bg-indigo-400 transition-colors shadow-lg shadow-indigo-500/25 flex items-center gap-2 mx-auto"
+                  className="px-6 py-2.5 bg-red-500 text-white rounded-lg font-semibold text-sm hover:bg-red-400 transition-colors shadow-lg shadow-red-500/25 flex items-center gap-2 mx-auto"
                 >
                   <Play className="w-4 h-4" /> Launch Storm Replay
                 </button>

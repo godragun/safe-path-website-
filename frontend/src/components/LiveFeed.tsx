@@ -20,7 +20,7 @@ function getIcon(type: string) {
   switch (type) {
     case "warning": return <AlertTriangle className="w-3.5 h-3.5 text-red-400" />;
     case "gauge": return <Droplets className="w-3.5 h-3.5 text-cyan-400" />;
-    default: return <MapPin className="w-3.5 h-3.5 text-indigo-400" />;
+    default: return <MapPin className="w-3.5 h-3.5 text-red-400" />;
   }
 }
 
@@ -28,7 +28,7 @@ function getBorderColor(type: string) {
   switch (type) {
     case "warning": return "border-l-red-500";
     case "gauge": return "border-l-cyan-500";
-    default: return "border-l-indigo-500";
+    default: return "border-l-red-500";
   }
 }
 
@@ -74,7 +74,7 @@ export default function LiveFeed({ items }: LiveFeedProps) {
                       <Clock className="w-2.5 h-2.5" />
                       {new Date(item.timestamp).toLocaleTimeString()}
                     </span>
-                    <span className="text-[10px] font-mono text-indigo-500/60">
+                    <span className="text-[10px] font-mono text-red-500/60">
                       {item.ward_id}
                     </span>
                   </div>
