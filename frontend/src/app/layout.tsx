@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Manrope, Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import PWARegister from "@/components/PWARegister";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
-const inter = Inter({
-  variable: "--font-inter",
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
   display: "swap",
 });
@@ -25,9 +32,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrains.variable} h-full antialiased dark`}
+      suppressHydrationWarning
+      className={`${manrope.variable} ${outfit.variable} ${jetbrains.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#0b1017]"><PWARegister />{children}</body>
+      <body className="min-h-full flex flex-col bg-slate-50 dark:bg-[#0b1017] transition-colors duration-300">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <PWARegister />
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

@@ -34,6 +34,18 @@ async def simulate_storm():
 from pydantic import BaseModel
 import random
 import asyncio
+from .ai_engine.gemini_service import get_autopilot_plan, get_risk_explanation, generate_srilanka_kit
+
+@app.get("/api/survival-kit")
+async def survival_kit_endpoint(context: str = "general"):
+    """
+    Returns AI-generated survival kit items for Sri Lanka based on the disaster context.
+    """
+    try:
+        data = generate_srilanka_kit(context)
+        return data
+    except Exception as e:
+        return {"items": [], "error": str(e)}
 
 class ChatRequest(BaseModel):
     message: str
@@ -49,47 +61,79 @@ class SMSRequest(BaseModel):
 
 @app.post("/api/chat")
 async def chat_endpoint(req: ChatRequest):
-    """Mock AI Chatbot Endpoint"""
-    await asyncio.sleep(1) # Simulate inference latency
-    msg = req.message.lower()
-
-    if "flood" in msg or "water" in msg:
-        reply = "In a flash flood, immediately move to higher ground. Do not walk, swim, or drive through flood waters. Six inches of moving water can knock you down, and one foot can sweep your vehicle away."
-    elif "status" in msg or "situation" in msg:
-        reply = "Currently tracking a severe storm front. Peak river gauges are at breach levels. Expect localized flash flooding in low-lying wards."
-    elif "supplies" in msg or "prepare" in msg:
-        reply = "Ensure you have a 72-hour kit: 1 gallon of water per person per day, non-perishable food, flashlight, extra batteries, and a first aid kit."
-    else:
-        reply = "I am the SafePath AI. I monitor disaster telemetry and provide actionable intelligence. How can I assist you with your current situation?"
-
-    return {"reply": reply}
+    """NVIDIA/Gemini Chatbot Endpoint"""
+    # Simply using a mock response or the risk explanation since the OpenAI client is removed
+    return {"reply": "SafePath AI: I am currently optimized for the Pre-Disaster Autopilot. Please check the dashboard for the latest survival intelligence."}
 
 @app.post("/api/predict")
 async def predict_endpoint(req: PredictRequest):
-    """Mock Deep Learning Risk Predictor"""
-    await asyncio.sleep(2) # Simulate heavy processing
+    """SafePath AI Risk Engine + Pre-Disaster Autopilot"""
+    await asyncio.sleep(1) # Simulate heavy processing
 
-    # Calculate synthetic risk based on inputs
+    # 1. Compute Numerical Risk Score (SafePath Risk Engine)
     base_risk = (req.rainfall_mm / 150.0) + (req.temperature / 100.0)
 
     if base_risk > 0.8:
         risk_level = "CRITICAL"
         prob = min(0.99, base_risk)
-        rec = "IMMEDIATE EVACUATION REQUIRED. High probability of infrastructure failure."
     elif base_risk > 0.4:
         risk_level = "WARNING"
         prob = base_risk
-        rec = "Deploy sandbags and issue flood advisories. Monitor closely."
     else:
         risk_level = "ELEVATED"
         prob = max(0.01, base_risk)
-        rec = "Standard monitoring. No immediate threat."
+
+    risk_data = {
+        "risk_level": risk_level,
+        "flood_probability": prob,
+        "temperature": req.temperature,
+        "rainfall_mm": req.rainfall_mm
+    }
+
+    # 2. Use Gemini to reason about the data and generate explanation/autopilot
+    explanation = get_risk_explanation(risk_data)
+    autopilot_plan = get_autopilot_plan(risk_data)
 
     return {
         "risk_level": risk_level,
         "flood_probability": prob,
         "confidence": random.uniform(0.85, 0.98),
-        "recommendation": rec
+        "recommendation": explanation.get("recommended_action", "Monitor alerts."),
+        "explanation": explanation.get("concise_explanation", "Risk is elevated."),
+        "autopilot": autopilot_plan
+    }
+
+@app.get("/api/community-pulse")
+async def community_pulse_endpoint():
+    """Aggregates and clusters community reports."""
+    # Mocking the aggregation logic
+    return {
+        "incidents": [
+            {
+                "id": "INC-204",
+                "hazard_type": "Flooding",
+                "report_count": 37,
+                "first_reported": "14:02",
+                "latest_report": "14:27",
+                "affected_radius_km": 1.2,
+                "confidence": "HIGH",
+                "trend": "Increasing",
+                "lat": 6.927,
+                "lng": 79.865
+            },
+            {
+                "id": "INC-205",
+                "hazard_type": "Fallen Tree",
+                "report_count": 5,
+                "first_reported": "14:15",
+                "latest_report": "14:20",
+                "affected_radius_km": 0.1,
+                "confidence": "MEDIUM",
+                "trend": "Stable",
+                "lat": 6.905,
+                "lng": 79.851
+            }
+        ]
     }
 
 @app.post("/api/sms")

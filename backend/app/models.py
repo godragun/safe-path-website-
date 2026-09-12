@@ -26,3 +26,25 @@ class SimulationState(BaseModel):
     reports: List[CitizenReport]
     gauges: List[GaugeReading]
     active_warnings: List[str]
+
+# Risk Engine Models
+
+class RiskPredictionRequest(BaseModel):
+    latitude: float
+    longitude: float
+    rainfall_mm: float
+    river_level_m: float
+    soil_moisture_pct: float
+
+class RiskPredictionResponse(BaseModel):
+    hazard: str
+    location: Location
+    risk_score: int
+    probability: float
+    category: str
+    trend: str
+    horizon_hours: int
+    confidence: float
+    timestamp: str
+    factors: List[str]
+    actions: List[str]

@@ -3,16 +3,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Map, NavigationControl, Marker } from "maplibre-gl";
 
+import { RouteOption } from "./ResilienceRouting";
+
 export interface HazardPin {
   id: string;
   lat: number;
   lng: number;
   severity: "critical" | "warning" | "info";
   description: string;
+  imageUrl?: string;
 }
 
 interface MapViewProps {
   hazards: HazardPin[];
+  safeZones?: { id: string; lat: number; lng: number; name: string }[];
+  routes?: RouteOption[];
   onPinClick: (hazard: HazardPin) => void;
 }
 
@@ -46,7 +51,7 @@ const DARK_STYLE = {
   ],
 };
 
-export default function MapView({ hazards, onPinClick }: MapViewProps) {
+export default function MapView({ hazards, safeZones = [], routes = [], onPinClick }: MapViewProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<Map | null>(null);
   const markersRef = useRef<Marker[]>([]);
@@ -68,8 +73,14 @@ export default function MapView({ hazards, onPinClick }: MapViewProps) {
     const map = new Map({
       container: mapContainerRef.current,
       style: DARK_STYLE,
-      center: [-74.006, 40.7128],
-      zoom: 13,
+      center: [79.8612, 6.9271],
+      zoom: 12.5,
+      minZoom: 6,
+      maxBounds: [
+        [79.3, 5.7], // Southwest coordinates of Sri Lanka
+        [82.0, 9.9], // Northeast coordinates of Sri Lanka
+      ],
+      renderWorldCopies: false,
       pitch: 0,
       bearing: 0,
     });
@@ -101,6 +112,42 @@ export default function MapView({ hazards, onPinClick }: MapViewProps) {
     // Remove old markers
     markersRef.current.forEach((m) => m.remove());
     markersRef.current = [];
+
+    // Render Safe Zones (Green Places)
+    safeZones.forEach((zone) => {
+      const color = "#10b981"; // Emerald green
+      const size = 16;
+      const wrapper = document.createElement("div");
+      wrapper.style.cssText = `position:relative;cursor:pointer;z-index:4;`;
+      
+      const dot = document.createElement("div");
+      dot.style.cssText = `
+        width:${size}px;height:${size}px;border-radius:50%;
+        background:${color};
+        box-shadow:0 0 12px ${color}88,0 0 24px ${color}44;
+        border:2px solid #ffffff;
+        transition:transform .2s;cursor:pointer;
+      `;
+      
+      const label = document.createElement("div");
+      label.innerText = zone.name;
+      label.style.cssText = `
+        position:absolute;top:-25px;left:50%;transform:translateX(-50%);
+        background:white;color:#0f172a;font-size:10px;font-weight:bold;
+        padding:2px 6px;border-radius:4px;white-space:nowrap;
+        box-shadow:0 2px 4px rgba(0,0,0,0.2);opacity:0;transition:opacity 0.2s;
+      `;
+      wrapper.appendChild(label);
+      
+      dot.onmouseover = () => { dot.style.transform = "scale(1.5)"; label.style.opacity = "1"; };
+      dot.onmouseout = () => { dot.style.transform = "scale(1)"; label.style.opacity = "0"; };
+      wrapper.appendChild(dot);
+      
+      const marker = new Marker({ element: wrapper })
+        .setLngLat([zone.lng, zone.lat])
+        .addTo(map);
+      markersRef.current.push(marker);
+    });
 
     hazards.forEach((h) => {
       const color =
@@ -152,7 +199,67 @@ export default function MapView({ hazards, onPinClick }: MapViewProps) {
 
       markersRef.current.push(marker);
     });
-  }, [hazards, isLoaded, onPinClick]);
+
+    // Draw Routes
+    const drawRoutes = () => {
+      routes.forEach((route) => {
+        const sourceId = `route-${route.id}`;
+        const layerId = `route-layer-${route.id}`;
+        
+        if (map.getSource(sourceId)) {
+          map.removeLayer(layerId);
+          map.removeSource(sourceId);
+        }
+
+        // Extremely simplified mock route data for the demo
+        const isPrimary = route.type === "PRIMARY";
+        const isAlternative = route.type === "ALTERNATIVE";
+        const offset = isPrimary ? 0 : isAlternative ? 0.005 : -0.005;
+        
+        let color = "#3b82f6"; // Blue default
+        if (route.status === "AVAILABLE" && isPrimary) color = "#10b981"; // Green primary
+        else if (route.status === "BLOCKED") color = "#ef4444"; // Red blocked
+        else if (route.status === "CONTINGENCY") color = "#f59e0b"; // Orange contingency
+        else if (route.status === "AVAILABLE") color = "#3b82f6"; // Blue alt
+        
+        map.addSource(sourceId, {
+          type: "geojson",
+          data: {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "LineString",
+              coordinates: [
+                [79.865 + offset, 6.927],
+                [79.870 + offset, 6.920],
+                [79.880 + offset, 6.910],
+              ],
+            },
+          },
+        });
+
+        map.addLayer({
+          id: layerId,
+          type: "line",
+          source: sourceId,
+          layout: {
+            "line-join": "round",
+            "line-cap": "round",
+          },
+          paint: {
+            "line-color": color,
+            "line-width": 6,
+            "line-opacity": route.status === "BLOCKED" ? 0.3 : 0.8,
+            "line-dasharray": route.status === "CONTINGENCY" ? [2, 2] : [1]
+          },
+        });
+      });
+    };
+
+    // If map is loaded, wait a tick to ensure style is ready
+    setTimeout(drawRoutes, 100);
+
+  }, [hazards, safeZones, routes, isLoaded, onPinClick]);
 
   return (
     <div className="relative w-full h-full overflow-hidden">

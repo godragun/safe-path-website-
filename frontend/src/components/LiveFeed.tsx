@@ -42,7 +42,7 @@ export default function LiveFeed({ items }: LiveFeedProps) {
   }, [items.length]);
 
   return (
-    <div className="glass-panel rounded-xl h-full flex flex-col overflow-hidden">
+    <div className="glass-panel-heavy rounded-xl h-full flex flex-col overflow-hidden shadow-xl border border-slate-700/50">
       {/* Header */}
       <div className="px-4 py-3 border-b border-slate-800 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2">

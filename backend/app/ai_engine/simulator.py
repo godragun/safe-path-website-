@@ -7,8 +7,8 @@ import json
 
 from ..models import CitizenReport, GaugeReading, Location
 
-# Simulated wards in a city (e.g., Downtown, Northside)
-WARDS = ["W-01", "W-02", "W-03"]
+# Simulated wards in a city (e.g., Colombo)
+WARDS = ["Colombo 01", "Colombo 03", "Dehiwala", "Wellawatte", "Bambalapitiya"]
 
 def generate_mock_reports(time_min: int) -> list[CitizenReport]:
     """Generates a burst of citizen reports as the storm worsens."""
@@ -19,17 +19,17 @@ def generate_mock_reports(time_min: int) -> list[CitizenReport]:
         reports.append(CitizenReport(
             id=str(uuid.uuid4())[:8],
             location=Location(
-                lat=40.7128 + random.uniform(-0.02, 0.02),
-                lng=-74.0060 + random.uniform(-0.02, 0.02)
+                lat=6.9271 + random.uniform(-0.03, 0.03),
+                lng=79.8612 + random.uniform(-0.03, 0.03)
             ),
             description=random.choice([
-                "Water rising rapidly on Main St.",
-                "Tree fell down, blocking the road.",
+                "Water rising rapidly on Galle Road.",
+                "Tree fell down near Viharamahadevi Park.",
                 "Flash flood in the underpass!",
-                "Manhole cover blown off by pressure.",
-                "Basement flooded."
+                "Drainage overflow near Beira Lake.",
+                "Basement flooded in Colombo 03."
             ]),
-            image_url=f"mock_image_{random.randint(1,5)}.jpg",
+            image_url=f"/images/disaster-{random.randint(1,3)}.jpg",
             timestamp=datetime.utcnow(),
             ward_id=random.choice(WARDS)
         ))
@@ -46,8 +46,8 @@ def generate_mock_gauges(time_min: int) -> list[GaugeReading]:
         gauges.append(GaugeReading(
             gauge_id=f"G-00{i}",
             location=Location(
-                lat=40.7100 + (i * 0.005),
-                lng=-74.0100 + (i * 0.005)
+                lat=6.9200 + (i * 0.005),
+                lng=79.8600 + (i * 0.005)
             ),
             water_level_m=round(current_level, 2),
             flow_rate_m3s=round(current_level * 15.5, 2),
@@ -69,7 +69,7 @@ async def storm_event_generator() -> AsyncGenerator[str, None]:
         
         warnings = []
         if any(g.water_level_m > 4.5 for g in gauges):
-            warnings.append("CRITICAL: River banks breached in Ward 2.")
+            warnings.append("CRITICAL: Kelani River banks breached near Colombo 14.")
             
         payload = {
             "time_elapsed_min": time_elapsed_min,
