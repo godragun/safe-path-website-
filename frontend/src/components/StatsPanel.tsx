@@ -19,7 +19,7 @@ function StatsCard({ icon, label, value, subtitle, color, delay = 0 }: StatsCard
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.4 }}
-      className="glass-panel rounded-xl p-4 hover:border-red-500/20 transition-all duration-300 group"
+      className="glass-panel-heavy bg-white dark:bg-transparent rounded-xl p-4 border border-slate-200 dark:border-transparent hover:border-red-500/30 transition-all duration-300 group shadow-sm"
     >
       <div className="flex items-center gap-3 mb-3">
         <div className={`p-2 rounded-lg ${color}`}>
@@ -27,7 +27,7 @@ function StatsCard({ icon, label, value, subtitle, color, delay = 0 }: StatsCard
         </div>
         <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500">{label}</span>
       </div>
-      <div className="text-3xl font-black text-white font-mono tracking-tight">{value}</div>
+      <div className="text-3xl font-black text-slate-900 dark:text-white font-mono tracking-tight">{value}</div>
       {subtitle && <div className="text-[11px] text-slate-500 mt-1">{subtitle}</div>}
     </motion.div>
   );
@@ -53,7 +53,7 @@ export default function StatsPanel({
   const gaugeColor = maxGaugeLevel > 4.5 ? "text-red-400" : maxGaugeLevel > 3.0 ? "text-amber-400" : "text-cyan-400";
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+    <div className="grid grid-cols-2 gap-3">
       <StatsCard
         icon={<Users className="w-4 h-4 text-red-400" />}
         label="Total Reports"

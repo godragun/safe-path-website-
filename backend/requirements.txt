@@ -12,3 +12,4 @@ python-multipart
 imagehash
 Pillow
 scikit-learn
+openai

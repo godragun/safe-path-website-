@@ -13,6 +13,7 @@ export type AuditData = {
   verdict: "Confirmed" | "Needs Verification" | "Rejected";
   confidence_score: number;
   description: string;
+  imageUrl?: string;
   checks: {
     image_ai: { status: "Pass" | "Fail"; metric: string; desc: string };
     weather: { status: "Pass" | "Fail"; metric: string; desc: string };
@@ -48,12 +49,12 @@ export default function XAIAuditDrawer({ isOpen, onClose, auditData }: XAIAuditD
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 220 }}
-            className="fixed right-0 top-0 h-full w-full max-w-lg bg-[#0d1117] border-l border-red-500/20 shadow-[_-20px_0_60px_rgba(99,102,241,0.1)] z-50 overflow-y-auto text-slate-200"
+            className="fixed right-0 top-0 h-full w-full max-w-lg bg-white dark:bg-[#0d1117] border-l border-red-500/20 shadow-[_-20px_0_60px_rgba(99,102,241,0.1)] z-50 overflow-y-auto text-slate-800 dark:text-slate-200"
           >
             {/* Header */}
-            <div className="sticky top-0 bg-[#0d1117]/90 backdrop-blur-xl p-6 border-b border-slate-800 flex justify-between items-center z-10">
+            <div className="sticky top-0 bg-white/90 dark:bg-[#0d1117]/90 backdrop-blur-xl p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center z-10">
               <div>
-                <h2 className="text-xl font-bold flex items-center gap-2">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <div className="p-2 bg-red-500/10 rounded-lg">
                     <Cpu className="w-5 h-5 text-red-400" />
                   </div>
@@ -63,7 +64,7 @@ export default function XAIAuditDrawer({ isOpen, onClose, auditData }: XAIAuditD
               </div>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-slate-800 rounded-lg transition-all hover:rotate-90 duration-300"
+                className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all hover:rotate-90 duration-300"
               >
                 <X className="w-5 h-5 text-slate-400" />
               </button>
@@ -100,13 +101,13 @@ export default function XAIAuditDrawer({ isOpen, onClose, auditData }: XAIAuditD
                   </span>
                 </div>
                 <div className="flex items-end gap-3">
-                  <div className="text-5xl font-black text-white font-mono tracking-tight">
+                  <div className="text-5xl font-black text-slate-900 dark:text-white font-mono tracking-tight">
                     {(auditData.confidence_score * 100).toFixed(1)}
                     <span className="text-lg text-slate-400">%</span>
                   </div>
                 </div>
                 {/* Confidence bar */}
-                <div className="mt-4 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div className="mt-4 h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${auditData.confidence_score * 100}%` }}
@@ -125,6 +126,21 @@ export default function XAIAuditDrawer({ isOpen, onClose, auditData }: XAIAuditD
 
               {/* 5 Parallel Checks */}
               <div>
+                <div className="mb-6">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-slate-500 mb-2">Report Context</p>
+                  <div className="bg-slate-50 dark:bg-slate-900/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">"{auditData.description}"</p>
+                    {auditData.imageUrl && (
+                      <div className="mt-4 relative rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700">
+                        <img src={auditData.imageUrl} alt="Disaster Report" className="w-full h-48 object-cover" />
+                        <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-2 py-1 rounded border border-white/10 text-[9px] font-bold tracking-widest text-emerald-400 uppercase">
+                          Verified Photo
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 mb-4 flex items-center gap-2">
                   <Activity className="w-3.5 h-3.5" />
                   Verification Pipeline
@@ -200,14 +216,14 @@ function CheckRow({
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay, duration: 0.3 }}
-      className="group bg-slate-900/60 rounded-lg p-4 border border-slate-800 hover:border-red-500/30 transition-all duration-300 hover:shadow-[0_0_20px_rgba(99,102,241,0.05)]"
+      className="group bg-slate-50 dark:bg-slate-900/60 rounded-lg p-4 border border-slate-200 dark:border-slate-800 hover:border-red-500/30 transition-all duration-300 hover:shadow-[0_0_20px_rgba(99,102,241,0.05)]"
     >
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2.5">
-          <div className="p-1.5 bg-slate-800 rounded-md group-hover:bg-slate-700/80 transition-colors">
+        <div className="flex items-center gap-3">
+          <div className="p-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-transparent rounded-md group-hover:bg-slate-50 dark:group-hover:bg-slate-700/80 transition-colors">
             {icon}
           </div>
-          <span className="font-semibold text-sm text-slate-200">{title}</span>
+          <span className="font-semibold text-sm text-slate-900 dark:text-slate-200">{title}</span>
         </div>
         {status === "Pass" || status === "Fail" ? (
           status === "Pass" ? (
