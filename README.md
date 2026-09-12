@@ -1,6 +1,18 @@
 # SafePath: Advanced Disaster Resilience Platform
 
-![SafePath Dashboard](docs/Screenshot%202026-09-13%20004717.png)
+<p align="center">
+  <img src="docs/screenshot_11.png" width="800" alt="SafePath Screenshot 1" />
+  <img src="docs/screenshot_3.png" width="800" alt="SafePath Screenshot 2" />
+  <img src="docs/screenshot_9.png" width="800" alt="SafePath Screenshot 3" />
+  <img src="docs/screenshot_4.png" width="800" alt="SafePath Screenshot 4" />
+  <img src="docs/screenshot_2.png" width="800" alt="SafePath Screenshot 5" />
+  <img src="docs/screenshot_5.png" width="800" alt="SafePath Screenshot 6" />
+  <img src="docs/screenshot_6.png" width="800" alt="SafePath Screenshot 7" />
+  <img src="docs/screenshot_7.png" width="800" alt="SafePath Screenshot 8" />
+  <img src="docs/screenshot_8.png" width="800" alt="SafePath Screenshot 9" />
+  <img src="docs/screenshot_10.png" width="800" alt="SafePath Screenshot 10" />
+</p>
+
 
 ## The Problem Statement
 During natural disasters like floods, tsunamis, and landslides (especially in vulnerable areas like Sri Lanka), traditional communication networks fail, evacuation routes become unpredictably blocked, and people panic without clear, actionable guidance. Most disaster management websites offer static information that becomes useless when the crisis hits and the internet goes down.
