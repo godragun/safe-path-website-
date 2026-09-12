@@ -9,9 +9,11 @@ export interface HazardPin {
   id: string;
   lat: number;
   lng: number;
-  severity: "critical" | "warning" | "info";
+  severity: "info" | "warning" | "critical";
   description: string;
   imageUrl?: string;
+  confidence?: "LOW" | "MEDIUM" | "HIGH";
+  reportCount?: number;
 }
 
 interface MapViewProps {
@@ -212,15 +214,15 @@ export default function MapView({ hazards, safeZones = [], routes = [], onPinCli
         }
 
         // Extremely simplified mock route data for the demo
-        const isPrimary = route.type === "PRIMARY";
-        const isAlternative = route.type === "ALTERNATIVE";
+        const isPrimary = route.type === "FASTEST_ROUTE";
+        const isAlternative = route.type === "SAFEST_ROUTE";
         const offset = isPrimary ? 0 : isAlternative ? 0.005 : -0.005;
         
         let color = "#3b82f6"; // Blue default
         if (route.status === "AVAILABLE" && isPrimary) color = "#10b981"; // Green primary
         else if (route.status === "BLOCKED") color = "#ef4444"; // Red blocked
         else if (route.status === "CONTINGENCY") color = "#f59e0b"; // Orange contingency
-        else if (route.status === "AVAILABLE") color = "#3b82f6"; // Blue alt
+        else if (route.status === "AVAILABLE" && isAlternative) color = "#6366f1"; // Indigo safe route
         
         map.addSource(sourceId, {
           type: "geojson",

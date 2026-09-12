@@ -82,7 +82,7 @@ export default function ReportEmergencyModal({ isOpen, onClose, onSubmit }: Repo
         // Attempt to register background sync if supported
         if ('serviceWorker' in navigator && 'SyncManager' in window) {
           const swRegistration = await navigator.serviceWorker.ready;
-          swRegistration.sync.register('sync-emergency-reports').catch(console.error);
+          (swRegistration as any).sync.register('sync-emergency-reports').catch(console.error);
         }
 
         alert("You are offline. Your report has been queued and will be sent when connectivity is restored.");
@@ -126,6 +126,8 @@ export default function ReportEmergencyModal({ isOpen, onClose, onSubmit }: Repo
         severity,
         description,
         imageUrl: imageUrl || undefined,
+        confidence: "LOW",
+        reportCount: 1,
       };
 
       onSubmit(newReport);

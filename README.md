@@ -25,25 +25,25 @@ SafePath utilizes a Next.js frontend combined with a FastAPI/Python risk engine 
 
 ## Unique Features Highlighted
 
-### 1. Offline-First Emergency Queue
-- **What it is:** A resilient reporting system using Service Workers and IndexedDB.
-- **How it helps:** If you lose internet, you can still submit emergency reports. SafePath stores them locally and automatically syncs them to the centralized Supabase database the moment connectivity is restored.
+### 1. Three-State Operational Architecture (PREPARE → SURVIVE → RECOVER)
+- **What it is:** The command center fluidly adapts to connectivity. 
+- **How it helps:** You explicitly download an **Emergency Pack** while online (PREPARE). When the internet dies, the UI shifts to **OFFLINE EMERGENCY MODE** showing cached safe routes and shelters (SURVIVE). Once the internet returns, it automatically syncs queued reports (RECOVER).
 
-### 2. Pre-Disaster AI Autopilot & Dynamic Survival Kits
-- **What it is:** Gemini AI-powered checklists dynamically generated based on the specific disaster and localized context (e.g., Sri Lanka).
-- **How it helps:** Instead of generic advice, if a flood hits Sri Lanka, the AI instructs you to pack DEET mosquito repellent (for Dengue) and secure your National Identity Card (NIC). It randomizes and updates tasks based on the changing threat level (NOW, WARNING, CRITICAL).
+### 2. Offline SOS Queue & Hazard Reporting
+- **What it is:** An offline-first resilient queue using IndexedDB.
+- **How it helps:** If you hit the massive "I'M IN DANGER" button while offline, your GPS coordinates are queued locally. SafePath waits patiently and blasts the SOS to the backend the millisecond connectivity is restored.
 
-### 3. Resilience Routing Fallback Ladder
-- **What it is:** A dynamic evacuation map that calculates a Primary, Alternative, and Last Resort route.
-- **How it helps:** As disasters progress and roads flood or bridges collapse, SafePath automatically invalidates the Primary route and switches you to the Alternative route, ensuring you never get trapped.
+### 3. Safest Route vs. Fastest Route Reasoning
+- **What it is:** Intelligent route options that explain *why* they are safer.
+- **How it helps:** The AI-backed router doesn't just give you a path; it provides a "Safe Route" that explains it is bypassing 2 known flood zones and a blocked road, increasing your trust in the system.
 
-### 4. Tiered Communication Hub
-- **What it is:** A dedicated `/communication` module for when cell towers fail.
-- **How it helps:** Guides users through a fallback ladder: Mesh Networks (Bluetooth/Wi-Fi Direct) for local peers, HAM/FM Radio for national broadcasts, and Satellite links as a last resort.
+### 4. AI Safety Briefing & Community Confidence
+- **What it is:** Automated risk summaries based on crowdsourced data.
+- **How it helps:** Community reports are grouped to generate a "Confidence" score (e.g. HIGH if reported by 3 people). The AI Safety Briefing distills this into a one-paragraph actionable summary so you don't have to parse raw data in an emergency.
 
-### 5. Signature Emergency Mode UI
-- **What it is:** A context-aware UI that automatically switches to a high-contrast, low-brightness dark red mode during critical events.
-- **How it helps:** Reduces eye strain in dark environments, conserves battery life (especially on OLED screens), and immediately signals the severity of the situation to the user without them reading a word.
+### 5. Competition Demo Mode
+- **What it is:** A built-in control panel for judges.
+- **How it helps:** Allows anyone to effortlessly simulate an internet outage, trigger a local SOS, simulate hazards, and demonstrate the seamless automatic background synchronization (RECOVER phase) without pulling ethernet cables.
 
 ## How This Saves Lives
 By combining **offline availability**, **AI-contextualized survival kits**, and **dynamic route recalculation**, SafePath removes panic and hesitation. People know exactly what to do, what to pack, and where to go, even when the internet is entirely cut off.
