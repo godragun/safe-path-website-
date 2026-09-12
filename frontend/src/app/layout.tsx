@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import PWARegister from "@/components/PWARegister";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,7 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${inter.variable} ${jetbrains.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-[#0a0e1a]">{children}</body>
+      <body className="min-h-full flex flex-col bg-[#0b1017]"><PWARegister />{children}</body>
     </html>
   );
 }

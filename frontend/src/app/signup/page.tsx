@@ -66,6 +66,9 @@ export default function SignupPage() {
             <button type="submit" className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2.5 rounded-lg transition-colors shadow-lg shadow-red-500/20 mt-4">
               Submit Request
             </button>
+            <button type="button" onClick={() => window.location.href = '/'} className="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-2.5 rounded-lg transition-colors shadow-lg mt-2">
+              Continue as Guest
+            </button>
           </form>
 
           <p className="mt-6 text-sm text-slate-400">

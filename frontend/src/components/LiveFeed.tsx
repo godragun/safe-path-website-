@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { AlertTriangle, Droplets, TreePine, MapPin, Clock } from "lucide-react";
+import { AlertTriangle, Droplets, MapPin, Clock } from "lucide-react";
 
 export interface FeedItem {
   id: string;
